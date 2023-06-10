@@ -13,13 +13,39 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // \App\Models\User::factory(1)->create();
-        \App\Models\Pemohon::factory(10)->create();
-        \App\Models\Berkas::factory(10)->create();
+        \App\Models\Pemohon::factory(5)->create();
+        \App\Models\CriteriaWeight::factory()->create(
+            [
+                'name' => 'Gaji Anggota',
+                'type' => 'cost',
+                'weight' => '0.25',
+                'description' => 'Bagus',
+            ],
 
-        \App\Models\User::factory()->create([
-            'name' => 'Dimas',
-            'email' => '1@1.com',
-            'password' => bcrypt('admin123'),
-        ]);
+        );
+        \App\Models\CriteriaWeight::factory()->create(
+            [
+                'name' => 'Lama Pinjam',
+                'type' => 'benefit',
+                'weight' => '0.20',
+                'description' => 'Bagus',
+            ],
+
+        );
+        \App\Models\CriteriaWeight::factory()->create(
+            [
+                'name' => 'Status Anggota',
+                'type' => 'benefit',
+                'weight' => '0.10',
+                'description' => 'Kurang Bagus',
+            ],
+
+        );
+
+        // \App\Models\User::factory()->create([
+        //     'name' => 'Dimas',
+        //     'email' => '1@1.com',
+        //     'password' => bcrypt('admin123'),
+        // ]);
     }
 }

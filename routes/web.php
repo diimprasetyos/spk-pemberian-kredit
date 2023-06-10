@@ -4,6 +4,17 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\PemohonController;
 use App\Http\Controllers\BerkasController;
+use App\Http\Controllers\AlternativeController;
+use App\Http\Controllers\CriteriaRatingController;
+use App\Http\Controllers\CriteriaWeightController;
+use App\Http\Controllers\DecisionController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NormalizationController;
+use App\Http\Controllers\RankController;
+use App\Http\Controllers\RiwayatController;
+use App\Http\Controllers\PinjamanController;
+use App\Models\CriteriaRating;
+use App\Models\CriteriaWeight;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,34 +32,31 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::resources([
+    'alternatives' => AlternativeController::class,
+    'criteriaratings' => CriteriaRatingController::class,
+    'criteriaweights' => CriteriaWeightController::class,
+    'pemohons' => PemohonController::class,
+    'berkas' => BerkasController::class,
+    'riwayats' => RiwayatController::class,
+    'pinjamans' => PinjamanController::class,
+
+]);
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-// greeting dashboard user route
-// Route::get('/home', [App\Http\Controllers\UserController::class, 'index'])->name('home');
 
-// route penilaian 
-Route::get('/penilaian', [App\Http\Controllers\PenilaianController::class, 'index'])->name('alternatif');
-Route::get('/normalisasi', [App\Http\Controllers\PenilaianController::class, 'normalisasi'])->name('normalisasi');
-// route pemohon
-Route::get('/pemohon', [App\Http\Controllers\PemohonController::class, 'index'])->name('pemohon');
-// route berkas
-Route::get('/berkas', [App\Http\Controllers\BerkasController::class, 'index'])->name('berkas');
-Route::get('/tambahberkas', [App\Http\Controllers\BerkasController::class, 'create'])->name('tambahberkas');
-Route::get('/editberkas', [App\Http\Controllers\BerkasController::class, 'edit'])->name('editberkas');
-// route keluhan
-Route::get('/keluhan', [App\Http\Controllers\KeluhanController::class, 'index'])->name('keluhan');
+Route::get('decision', [DecisionController::class, 'index']);
 
-// route kriteria
-Route::get('/kriteria', [App\Http\Controllers\KriteriaController::class, 'index'])->name('kriteria');
-Route::get('/bobotkriteria', [App\Http\Controllers\KriteriaController::class, 'bobotkriteria'])->name('bobotkriteria');
-Route::get('/subkriteria', [App\Http\Controllers\KriteriaController::class, 'subkriteria'])->name('subkriteria');
-// route hasil & report
-Route::get('/hasil', [App\Http\Controllers\HasilController::class, 'index'])->name('hasil');
-Route::get('/report', [App\Http\Controllers\ReportController::class, 'index'])->name('report');
+Route::get('normalization', [NormalizationController::class, 'index']);
 
-//crud
-Route::get('/tambahpemohon', [App\Http\Controllers\PemohonController::class, 'create'])->name('tambahpemohon');
-Route::get('/editpemohon', [App\Http\Controllers\PemohonController::class, 'edit'])->name('editpemohon');
+Route::get('rank', [RankController::class, 'index']);
 
-
-Route::resource('pemohons', App\Http\Controllers\PemohonController::class);
-Route::resource('berkas', App\Http\Controllers\BerkasController::class);
+// print route
+Route::get('/alternative/print', [AlternativeController::class, 'print'])->name('alternative.print');
+Route::get('/pemohon/print', [PemohonController::class, 'print'])->name('pemohons.print');
+Route::get('/berkas/print', [BerkasController::class, 'print'])->name('berkas.print');
+Route::get('/decision/print', [DecisionController::class, 'print'])->name('decision.print');
+Route::get('/normalization/print', [NormalizationController::class, 'print'])->name('normalization.print');
+Route::get('/pinjaman/print', [PinjamanController::class, 'print'])->name('pinjaman.print');
+Route::get('/rank/print', [RankController::class, 'print'])->name('rank.print');
+Route::get('/riwayat/print', [RiwayatController::class, 'print'])->name('riwayats.print');

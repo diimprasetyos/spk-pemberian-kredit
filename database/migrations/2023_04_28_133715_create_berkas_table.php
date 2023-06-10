@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('berkas', function (Blueprint $table) {
             $table->id();
-            $table->string('nik');
-            $table->binary('ktp');
-            $table->binary('slip_gaji');
+            $table->unsignedBigInteger('id_pemohon');
+            $table->string('gambar');
             $table->timestamps();
+            $table->foreign('id_pemohon')->references('id')->on('pemohons');
         });
     }
 

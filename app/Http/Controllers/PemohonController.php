@@ -3,37 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pemohon;
-use App\Models\User;
-use Illuminate\Http\Response;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PemohonController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index()
     {
-        $pemohons = Pemohon::all();
-        $pemohonCount = Pemohon::count();
-        return view('pemohon', compact('pemohons', 'pemohonCount'));
+        $pemohons = Pemohon::get();
+        return view('pemohon.index', compact('pemohons'))->with('i', 0);
     }
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('tambahpemohon');
+        $pemohons = Pemohon::get();
+        return view('pemohon.create', compact('pemohons'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request):RedirectResponse
+    public function store(Request $request)
     {
-         $request->validate([
+        $request->validate([
             'nama' => 'required',
             'email' => 'required',
             'no_hp' => 'required',
@@ -43,33 +40,30 @@ class PemohonController extends Controller
 
         Pemohon::create($request->all());
 
-        return redirect()->route('pemohon')
+        return redirect()->route('pemohons.index')
             ->with('success', 'Pemohon created successfully.');
-
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id):View
+    public function show(string $id)
     {
-        $pemohons = Pemohon::findOrFail($id);
-        return view('pemohon', compact('pemohons'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id):View
+    public function edit(Pemohon $pemohons, $id)
     {
         $pemohons = Pemohon::findOrFail($id);
-        return view('editpemohon', compact('pemohons'));
+        return view('pemohon.edit', compact('pemohons'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): RedirectResponse
+    public function update(Request $request, Pemohon $pemohons, $id)
     {
         $request->validate([
             'nama' => 'required',
@@ -80,20 +74,27 @@ class PemohonController extends Controller
         ]);
         $pemohons = Pemohon::findOrFail($id);
         $pemohons->update($request->all());
-        
-        return redirect()->route('pemohon')
+
+        return redirect()->route('pemohons.index')
             ->with('success', 'Pemohon updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Pemohon $pemohons, $id)
     {
         $pemohons = Pemohon::findOrFail($id);
         $pemohons->delete();
 
-        return redirect()->route('pemohon')
+        return redirect()->route('pemohons.index')
             ->with('success', 'Pemohon deleted successfully');
+    }
+
+    public function print()
+    {
+        $pemohons = Pemohon::all();
+        $pdf = Pdf::loadview('pemohon.print', compact('pemohons'));
+        return $pdf->download('laporan-pemohon.pdf');
     }
 }

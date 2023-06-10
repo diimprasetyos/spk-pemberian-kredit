@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berkas;
-use App\Models\User;
-use Illuminate\Http\Response;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
+use App\Models\Pemohon;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BerkasController extends Controller
 {
@@ -17,8 +15,18 @@ class BerkasController extends Controller
      */
     public function index()
     {
-        $berkas = Berkas::all();
-        return view('berkas', compact('berkas'));
+        $berkas = Berkas::select(
+            'berkas.id as id',
+            'berkas.id_pemohon as idp',
+            'pemohons.nama as nama',
+            'berkas.gambar as img',
+        )
+            ->leftJoin('pemohons', 'berkas.id_pemohon', '=', 'pemohons.id')
+            ->get();
+
+        $pemohons = Pemohon::get();
+
+        return view('berkas.index', compact('berkas'));
     }
 
     /**
@@ -26,7 +34,8 @@ class BerkasController extends Controller
      */
     public function create()
     {
-        return view('tambahberkas');
+        $pemohons = Pemohon::all();
+        return view('berkas.create', compact('pemohons'));
     }
 
     /**
@@ -35,61 +44,79 @@ class BerkasController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nik' => 'required',
-            'ktp' => 'required',
-            'slip_gaji' => 'required',
+            'id_pemohon' => 'required',
+            'gambar' => 'required|file|mimes:png,jpg,jpeg|max:2048',
         ]);
 
-        Berkas::create($request->all());
+        $gambar = $request->file('gambar');
+        $nama_gambar = time() . '_' . $gambar->getClientOriginalName();
+        $tujuan_upload = 'img_berkas';
+        $gambar->move($tujuan_upload, $nama_gambar);
 
-        return redirect()->route('berkas')
+        Berkas::create([
+            'id_pemohon' => $request->id_pemohon,
+            'gambar' => $nama_gambar,
+        ]);
+
+        return redirect()->route('berkas.index')
             ->with('success', 'Berkas created successfully.');
     }
+
 
     /**
      * Display the specified resource.
      */
     public function show(Berkas $berkas)
     {
-    
+        // Tambahkan logika sesuai kebutuhan
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Berkas $berkas, $id)
     {
         $berkas = Berkas::findOrFail($id);
-        return view('editberkas', compact('berkas'));
+        $pemohons = Pemohon::all();
+        return view('berkas.edit', compact('pemohons', 'berkas'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Berkas $berkas)
     {
         $request->validate([
-            'nik' => 'required',
-            'ktp' => 'required',
-            'slip_gaji' => 'required',
+            'id_pemohon' => 'required',
+            'gambar' => 'nullable|file|mimes:png,jpg,jpeg|max:2048',
         ]);
-        $berkas = Berkas::findOrFail($id);
-        $berkas->update($request->all());
-        
-        return redirect()->route('berkas')
-            ->with('success', 'Berkas updated successfully');
 
+        if ($request->hasFile('gambar')) {
+            File::delete(public_path('img_berkas/' . $berkas->gambar));
+
+            $gambar = $request->file('gambar');
+            $nama_gambar = time() . '_' . $gambar->getClientOriginalName();
+            $tujuan_upload = 'img_berkas';
+            $gambar->move($tujuan_upload, $nama_gambar);
+
+            $berkas->gambar = $nama_gambar;
+            $berkas->save();
+        }
+
+        return redirect()->route('berkas.index')
+            ->with('success', 'Berkas updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Berkas $berkas, $id)
     {
         $berkas = Berkas::findOrFail($id);
+        File::delete(public_path('img_berkas/' . $berkas->gambar));
         $berkas->delete();
 
-        return redirect()->route('berkas')
+        return redirect()->route('berkas.index')
             ->with('success', 'Berkas deleted successfully');
     }
 }

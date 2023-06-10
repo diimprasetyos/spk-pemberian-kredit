@@ -11,8 +11,7 @@ class Berkas extends Model
 
     protected $table = 'berkas';
     protected $fillable = [
-        'nik',
-        'ktp',
-        'slip_gaji',
+        'id_pemohon',
+        'gambar'
     ];
 }

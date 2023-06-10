@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Pemohon;
 use App\Models\Berkas;
-use App\Models\Keluhan;
+use App\Models\Riwayat;
+
 
 
 class HomeController extends Controller
@@ -30,8 +31,9 @@ class HomeController extends Controller
     public function index()
     {
         $users = User::all();
+        $riwayatpengajuan = Riwayat::all();
         $berkas = Berkas::count();
         $pemohonCount = Pemohon::count();
-        return view('home',compact('users','berkas','pemohonCount'));
+        return view('home', compact('users', 'berkas', 'pemohonCount', 'riwayatpengajuan'));
     }
-    }
+}

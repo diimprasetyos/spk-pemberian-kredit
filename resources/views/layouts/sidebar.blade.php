@@ -14,8 +14,9 @@
         </a>
         <div class="collapse" id="ui-basic">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="/pemohon">Data Diri</a></li>
+            <li class="nav-item"> <a class="nav-link" href="/pemohons">Data Diri</a></li>
             <li class="nav-item"> <a class="nav-link" href="/berkas">Upload Berkas</a></li>
+            <li class="nav-item"> <a class="nav-link" href="/pinjamans">Pinjaman</a></li>
           </ul>
         </div>
       </li>
@@ -27,9 +28,8 @@
         </a>
         <div class="collapse" id="form-elements">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"><a class="nav-link" href="/kriteria">Kriteria</a></li>
-            <li class="nav-item"><a class="nav-link" href="/bobotkriteria">Bobot Kriteria</a></li>
-            <li class="nav-item"><a class="nav-link" href="/subkriteria">Sub Kriteria</a></li>
+            <li class="nav-item"><a class="nav-link" href="/criteriaweights">Kriteria</a></li>
+            <li class="nav-item"><a class="nav-link" href="/criteriaratings">Sub Kriteria</a></li>
           </ul>
         </div>
       </li>
@@ -41,42 +41,19 @@
         </a>
         <div class="collapse" id="charts">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="/alternatif">Alternatif</a></li>
-            <li class="nav-item"> <a class="nav-link" href="/normalisasi">Matriks Normalisasi</a></li>
+            <li class="nav-item"> <a class="nav-link" href="/alternatives">Alternatif</a></li>
+            <li class="nav-item"> <a class="nav-link" href="/decision">Decision Matrix</a></li>
+            <li class="nav-item"> <a class="nav-link" href="/normalization">Normalisasi</a></li>
           </ul>
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/hasil">
+        <a class="nav-link" href="/rank">
           <i class="icon-grid-2 menu-icon"></i>
-          <span class="menu-title">Hasil</span>
+          <span class="menu-title">Ranking</span>
         </a>
       </li>
       {{-- <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
-          <i class="icon-grid-2 menu-icon"></i>
-          <span class="menu-title">Hasil</span>
-          <i class="menu-arrow"></i>
-        </a>
-        <div class="collapse" id="tables">
-          <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="/hasil">Tabel Hasil</a></li>
-          </ul>
-        </div>
-      </li> --}}
-      {{-- <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
-          <i class="icon-contract menu-icon"></i>
-          <span class="menu-title">Icons</span>
-          <i class="menu-arrow"></i>
-        </a>
-        <div class="collapse" id="icons">
-          <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">Mdi icons</a></li>
-          </ul>
-        </div>
-      </li> --}}
-      <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
           <i class="icon-head menu-icon"></i>
           <span class="menu-title">User Pages</span>
@@ -88,30 +65,11 @@
             <li class="nav-item"> <a class="nav-link" href="/register"> Register </a></li>
           </ul>
         </div>
-      </li>
-      {{-- <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#error" aria-expanded="false" aria-controls="error">
-          <i class="icon-ban menu-icon"></i>
-          <span class="menu-title">Error pages</span>
-          <i class="menu-arrow"></i>
-        </a>
-        <div class="collapse" id="error">
-          <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
-            <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
-          </ul>
-        </div>
       </li> --}}
       <li class="nav-item">
-        <a class="nav-link" href="/report">
+        <a class="nav-link" href="/riwayats">
           <i class="icon-paper menu-icon"></i>
-          <span class="menu-title">Report</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/keluhan">
-          <i class="mdi mdi-alert menu-icon"></i>
-          <span class="menu-title">Keluhan</span>
+          <span class="menu-title">Riwayat Pengajuan</span>
         </a>
       </li>
     </ul>
